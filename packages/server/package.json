@@ -1,0 +1,11 @@
+{
+  "name": "whisper-server",
+  "version": "1.0.0",
+  "description": "Whisper is a full-stack chatting application that helps locals connect and share their thoughts. It offers an easy way for users to interact and exchange ideas within their community.",
+  "main": "app/server.ts",
+  "scripts": {
+    "start": "nodemon --exec ts-node app/server.ts"
+  },
+  "author": "Abdul Rehan",
+  "license": "MIT" 
+}
