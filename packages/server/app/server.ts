@@ -1,14 +1,14 @@
 // IMPORTS -
-const express = require("express");
+import express from 'express';
 const app = express();
 const port = 8000;
 
-app.get("/", (_res: any, res: any) => {
+app.get('/', (_res, res) => {
   res.json({
-    foo: "bar",
+    foo: 'bar',
   });
 });
 
 app.listen(port, () => {
-  console.log("Server is running on port:", port);
+  console.log('Server is running on port:', port);
 });

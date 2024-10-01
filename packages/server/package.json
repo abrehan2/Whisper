@@ -4,8 +4,10 @@
   "description": "Whisper is a full-stack chatting application that helps locals connect and share their thoughts. It offers an easy way for users to interact and exchange ideas within their community.",
   "main": "app/server.ts",
   "scripts": {
-    "start": "nodemon --exec ts-node app/server.ts"
+    "start": "nodemon --exec ts-node app/server.ts",
+    "build": "tsc",
+    "serve": "node dist/server.js"
   },
   "author": "Abdul Rehan",
-  "license": "MIT" 
+  "license": "MIT"
 }
