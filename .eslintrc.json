@@ -118,7 +118,7 @@
         "semi-spacing": "error",
         //* Best Practices
         "eqeqeq": "warn",
-        "no-invalid-this": "error",
+        "no-invalid-this": "off",
         "no-return-assign": "error",
         "no-unused-expressions": ["error", { "allowTernary": true }],
         "no-useless-concat": "error",

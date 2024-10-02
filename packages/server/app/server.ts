@@ -1,6 +1,6 @@
 // Imports:
 import app from './app';
-import GlobalConfig from './config';
+import { globalConfig } from './config';
 
 // Handling uncaught exception:
 process.on('uncaughtException', (err: Error) => {
@@ -10,8 +10,8 @@ process.on('uncaughtException', (err: Error) => {
 });
 
 // Server:
-const server = app.listen(Number(GlobalConfig.BACK_END_PORT), () => {
-  console.log('Server is running on port:', GlobalConfig.BACK_END_PORT);
+const server = app.listen(Number(globalConfig.BACK_END_PORT), () => {
+  console.log('Server is running on port:', globalConfig.BACK_END_PORT);
 });
 
 // Unhandled promise rejection:

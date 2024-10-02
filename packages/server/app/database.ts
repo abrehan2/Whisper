@@ -1,10 +1,10 @@
 // Imports:
 import mongoose from 'mongoose';
-import GlobalConfig from './config';
+import { globalConfig } from './config';
 
-function initiateDB() {
+function InitiateDB() {
   mongoose
-    .connect(GlobalConfig.MONGO_URI)
+    .connect(globalConfig.MONGO_URI)
     .then((res: typeof mongoose) =>
       console.log('Connected to database:', res.connection.host)
     )
@@ -13,4 +13,4 @@ function initiateDB() {
     );
 }
 
-export default initiateDB;
+export default InitiateDB;
