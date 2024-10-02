@@ -11,7 +11,7 @@ process.on('uncaughtException', (err: Error) => {
 
 // Server:
 const server = app.listen(Number(GlobalConfig.BACK_END_PORT), () => {
-  console.log('Server is running on port: ', GlobalConfig.BACK_END_PORT);
+  console.log('Server is running on port:', GlobalConfig.BACK_END_PORT);
 });
 
 // Unhandled promise rejection:

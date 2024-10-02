@@ -4,9 +4,13 @@ import cors from 'cors';
 import morgan from 'morgan';
 import GlobalConfig from './config';
 import { ExpressGenerics } from '../libs/types';
+import initiateDB from './database';
 
 // Variables:
 const app = express();
+
+// Invokations:
+initiateDB();
 
 // Middlwares:
 app.use(express.json());

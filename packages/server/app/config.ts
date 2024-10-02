@@ -8,6 +8,7 @@ config({ path: 'app/local.env' });
 const GlobalConfig = {
   BACK_END_PORT: process.env.PORT || '',
   FRONT_END_BASE: process.env.FRONT_END_BASE || '',
+  MONGO_URI: process.env.MONGO_URI || '',
 };
 
 export default GlobalConfig;
