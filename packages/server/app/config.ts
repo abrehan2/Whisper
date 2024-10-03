@@ -11,6 +11,8 @@ const globalConfig = {
   MONGO_URI: process.env.MONGO_URI || '',
   JWT_SECRET: process.env.JWT_SECRET || '',
   JWT_EXPIRE: process.env.JWT_EXPIRE || '',
+  RESET_TOKEN_TIME: process.env.RESET_TOKEN_TIME,
+  COOKIE_EXPIRE_TIME: process.env.COOKIE_EXPIRE_TIME,
 };
 
 const globalError = {

@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import { globalConfig } from './config';
 import { ExpressGenerics } from '../libs/types';
 import InitiateDB from './database';
+import { ErrorMiddleware } from '../middlewares/error';
 
 // Variables:
 const app = express();
@@ -24,8 +25,16 @@ app.use(
 );
 
 // Test route:
-app.get('/', (res: ExpressGenerics.ExpressGenericArg['res']) => {
-  res.send('Hello, this is whisper from sever.');
-});
+app.get(
+  '/',
+  (
+    _req: ExpressGenerics.ExpressGenericArg['req'],
+    res: ExpressGenerics.ExpressGenericArg['res']
+  ) => {
+    res.send('Hello, this is whisper from sever.');
+  }
+);
+
+app.use(ErrorMiddleware as unknown as express.ErrorRequestHandler);
 
 export default app;

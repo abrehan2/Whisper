@@ -9,4 +9,12 @@ type ExpressGenericArg = {
   err: ErrorHandler;
 };
 
-export { ExpressGenericArg };
+type ControllerTypeArg = (
+  _req: Request,
+  _res: Response,
+  _next: NextFunction
+) => Promise<void | Response<unknown, Record<string, unknown>>>;
+
+// TODO: Replace unknow with any if problems occur.
+
+export { ExpressGenericArg, ControllerTypeArg };

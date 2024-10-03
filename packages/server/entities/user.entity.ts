@@ -6,7 +6,6 @@ import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import JsonWebToken from 'jsonwebtoken';
 import { globalConfig } from '../app/config';
-import { TokenConfig } from '../libs/enums';
 
 const schema = new Schema<Entities.IUser>(
   {
@@ -114,7 +113,7 @@ schema.methods.GetResetToken = function () {
     .update(resetToken)
     .digest('hex');
 
-  const resetTime: number = TokenConfig.tokenTime['RESET_TOKEN_TIME'];
+  const resetTime: number = Number(globalConfig.RESET_TOKEN_TIME);
   this.resetPasswordExpire = Date.now() + (resetTime * 60 * 1000);
 };
 

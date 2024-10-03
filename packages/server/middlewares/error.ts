@@ -1,47 +1,57 @@
+/* eslint-disable indent */
 // Imports:
-import { ExpressGenerics } from '../libs/types';
 import ErrorHandler from '../libs/utilities/error-handler';
 import mongoose from 'mongoose';
 import { globalError } from '../app/config';
+import { ExpressGenerics } from '../libs/types';
 
-export default function ErrorMiddleware({
+export const ErrorMiddleware = ({
   err,
   res,
-}: ExpressGenerics.ExpressGenericArg) {
-  let message: string = globalError.default.message;
-  let statusCode: number = globalError.default.statusCode;
-
-  if (err) {
-    err.message ||= message;
-    err.statusCode ||= statusCode;
-  }
+}: ExpressGenerics.ExpressGenericArg) => {
+  err.message ||= globalError.default.message;
+  err.statusCode ||= globalError.default.statusCode;
 
   if (err?.name === mongoose.Error.CastError.name) {
-    message = globalError.CastError.message;
-    statusCode = globalError.CastError.statusCode;
-    err = new ErrorHandler(message, statusCode);
+    err = new ErrorHandler(
+      globalError.CastError.message,
+      globalError.CastError.statusCode
+    );
   }
 
   if (err?.code === 11000) {
-    message = globalError[11000].message;
-    statusCode = globalError[11000].statusCode;
-    err = new ErrorHandler(message, statusCode);
+    err = new ErrorHandler(
+      globalError[11000].message,
+      globalError[11000].statusCode
+    );
   }
 
   if (err?.name === 'JsonWebTokenError') {
-    message = globalError.JsonWebTokenError.message;
-    statusCode = globalError.JsonWebTokenError.statusCode;
-    err = new ErrorHandler(message, statusCode);
+    err = new ErrorHandler(
+      globalError.JsonWebTokenError.message,
+      globalError.JsonWebTokenError.statusCode
+    );
   }
 
   if (err?.name === 'TokenExpiredError') {
-    message = globalError.TokenExpiredError.message;
-    statusCode = globalError.TokenExpiredError.statusCode;
-    err = new ErrorHandler(message, statusCode);
+    err = new ErrorHandler(
+      globalError.TokenExpiredError.message,
+      globalError.TokenExpiredError.statusCode
+    );
   }
 
   return res.status(err.statusCode).json({
     success: false,
     message: err.message,
   });
-}
+};
+
+export const TryCatchBlock =
+  (fn: ExpressGenerics.ControllerTypeArg) =>
+  (
+    req: ExpressGenerics.ExpressGenericArg['req'],
+    res: ExpressGenerics.ExpressGenericArg['res'],
+    next: ExpressGenerics.ExpressGenericArg['next']
+  ) => {
+    Promise.resolve(fn(req, res, next)).catch(next);
+  };

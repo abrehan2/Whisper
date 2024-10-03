@@ -18,4 +18,9 @@ export interface IUser extends Document {
   resetPasswordExpire?: Date;
   createdAt?: Date;
   updatedAt?: Date;
+
+  // Methods:
+  GetJwtToken: () => string;
+  ComparePassword: () => Promise<boolean>;
+  GetResetToken: () => void;
 }
