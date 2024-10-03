@@ -13,8 +13,31 @@ const globalConfig = {
   JWT_EXPIRE: process.env.JWT_EXPIRE || '',
 };
 
-enum tokenConfig {
-  RESET_TOKEN_TIME = 15,
-}
+const globalError = {
+  default: {
+    message: 'Internal server error',
+    statusCode: 500,
+  },
 
-export { globalConfig, tokenConfig };
+  CastError: {
+    message: 'Invalid MongoDB Id',
+    statusCode: 400,
+  },
+
+  11000: {
+    message: 'Duplicate key found',
+    statusCode: 400,
+  },
+
+  JsonWebTokenError: {
+    message: 'Json web token is invalid',
+    statusCode: 400,
+  },
+
+  TokenExpiredError: {
+    message: 'Json web token has expired',
+    statusCode: 400,
+  },
+};
+
+export { globalConfig, globalError };

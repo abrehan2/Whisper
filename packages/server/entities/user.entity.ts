@@ -1,13 +1,14 @@
 // Imports:
 import mongoose, { Schema } from 'mongoose';
-import { IUser } from './types';
+import { Entities } from '../libs/types';
 import validator from 'validator';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import JsonWebToken from 'jsonwebtoken';
-import { globalConfig, tokenConfig } from '../app/config';
+import { globalConfig } from '../app/config';
+import { TokenConfig } from '../libs/enums';
 
-const schema = new Schema<IUser>(
+const schema = new Schema<Entities.IUser>(
   {
     name: {
       type: String,
@@ -113,8 +114,8 @@ schema.methods.GetResetToken = function () {
     .update(resetToken)
     .digest('hex');
 
-  const resetTime: number = tokenConfig['RESET_TOKEN_TIME'];
+  const resetTime: number = TokenConfig.tokenTime['RESET_TOKEN_TIME'];
   this.resetPasswordExpire = Date.now() + (resetTime * 60 * 1000);
 };
 
-export default mongoose.model<IUser>('User', schema);
+export default mongoose.model<Entities.IUser>('User', schema);
