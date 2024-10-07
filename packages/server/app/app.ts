@@ -1,14 +1,16 @@
 // Imports:
-import express from 'express';
+import express, { ErrorRequestHandler, Request, Response } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import { globalConfig } from './config';
-import { ExpressGenerics } from '../libs/types';
 import InitiateDB from './database';
 import { ErrorMiddleware } from '../middlewares/error';
+import userRouter from '../routes/user';
+import bodyParser from 'body-parser';
 
 // Variables:
 const app = express();
+const apiPrefix: string = '/api/v1';
 
 // Invokations:
 InitiateDB();
@@ -16,6 +18,7 @@ InitiateDB();
 // Middlwares:
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(
   cors({
@@ -28,13 +31,16 @@ app.use(
 app.get(
   '/',
   (
-    _req: ExpressGenerics.ExpressGenericArg['req'],
-    res: ExpressGenerics.ExpressGenericArg['res']
+    _req: Request,
+    res: Response
   ) => {
     res.send('Hello, this is whisper from sever.');
   }
 );
 
-app.use(ErrorMiddleware as unknown as express.ErrorRequestHandler);
+// Routes:
+app.use(apiPrefix.concat('/user'), userRouter);
+
+app.use(ErrorMiddleware as unknown as ErrorRequestHandler);
 
 export default app;

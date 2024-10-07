@@ -1,5 +1,6 @@
 // Imports:
 import User from '../entities/user.entity';
+import { AUTH_MODES } from '../libs/enums/modes.enum';
 import { Repositories, Entities } from '../libs/types';
 
 export default class UserRepository implements Repositories.IUserRepository {
@@ -17,12 +18,22 @@ export default class UserRepository implements Repositories.IUserRepository {
   }
 
   async create(
-    user: Entities.IUser,
+    user: Partial<Entities.IUser>,
     check: 'credentials' | 'google'
-  ): Promise<Entities.IUser | null> {
-    console.log(user, check);
+  ): Promise<boolean> {
+    let createdUser: Partial<Entities.IUser> | null = null;
 
-    return null;
+    if (AUTH_MODES['CREDENTIALS'] === check) {
+      createdUser = await this.database.create({
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        country: user.country,
+        avatar: user.avatar,
+      });
+    }
+
+    return !!createdUser;
   }
   async update(
     id: string,

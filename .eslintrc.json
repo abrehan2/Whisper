@@ -124,9 +124,13 @@
         "no-useless-concat": "error",
         "no-useless-return": "error",
         "no-constant-condition": "warn",
-        "no-unused-vars": [
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": [
           1,
-          { "args": "after-used", "argsIgnorePattern": "^_" }
+          {
+            "args": "after-used",
+            "argsIgnorePattern": "^_"
+          }
         ],
         //* Enhance Readability
         "indent": ["error", 2, { "SwitchCase": 1 }],

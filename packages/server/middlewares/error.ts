@@ -1,14 +1,18 @@
-/* eslint-disable indent */
 // Imports:
 import ErrorHandler from '../libs/utilities/error-handler';
 import mongoose from 'mongoose';
 import { globalError } from '../app/config';
 import { ExpressGenerics } from '../libs/types';
+import { NextFunction, Request, Response } from 'express';
+import Logger from '../libs/utilities/logs';
 
-export const ErrorMiddleware = ({
-  err,
-  res,
-}: ExpressGenerics.ExpressGenericArg) => {
+export const ErrorMiddleware = (
+  err: ErrorHandler,
+  _req: Request,
+  res: Response,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _next: NextFunction
+) => {
   err.message ||= globalError.default.message;
   err.statusCode ||= globalError.default.statusCode;
 
@@ -20,6 +24,7 @@ export const ErrorMiddleware = ({
   }
 
   if (err?.code === 11000) {
+    console.log('I AM HERE IN 11000');
     err = new ErrorHandler(
       globalError[11000].message,
       globalError[11000].statusCode
@@ -40,6 +45,8 @@ export const ErrorMiddleware = ({
     );
   }
 
+  Logger('error', err.message);
+
   return res.status(err.statusCode).json({
     success: false,
     message: err.message,
@@ -48,10 +55,6 @@ export const ErrorMiddleware = ({
 
 export const TryCatchBlock =
   (fn: ExpressGenerics.ControllerTypeArg) =>
-  (
-    req: ExpressGenerics.ExpressGenericArg['req'],
-    res: ExpressGenerics.ExpressGenericArg['res'],
-    next: ExpressGenerics.ExpressGenericArg['next']
-  ) => {
-    Promise.resolve(fn(req, res, next)).catch(next);
-  };
+    (req: Request, res: Response, next: NextFunction) => {
+      Promise.resolve(fn(req, res, next)).catch(next);
+    };

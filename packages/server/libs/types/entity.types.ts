@@ -1,5 +1,6 @@
 // Imports:
 import { Document } from 'mongoose';
+import { AUTH_MODES } from '../enums/modes.enum';
 
 export interface IUser extends Document {
   name: string;
@@ -11,9 +12,11 @@ export interface IUser extends Document {
   };
   age: number;
   dob: Date;
+  country: string;
   gender: 'male' | 'female';
   googleId?: string;
   role: 'user' | 'admin';
+  check: AUTH_MODES.CREDENTIALS | AUTH_MODES.GOOGLE;
   resetPasswordToken?: string;
   resetPasswordExpire?: Date;
   createdAt?: Date;

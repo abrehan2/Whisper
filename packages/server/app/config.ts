@@ -11,8 +11,10 @@ const globalConfig = {
   MONGO_URI: process.env.MONGO_URI || '',
   JWT_SECRET: process.env.JWT_SECRET || '',
   JWT_EXPIRE: process.env.JWT_EXPIRE || '',
-  RESET_TOKEN_TIME: process.env.RESET_TOKEN_TIME,
-  COOKIE_EXPIRE_TIME: process.env.COOKIE_EXPIRE_TIME,
+  RESET_TOKEN_TIME: process.env.RESET_TOKEN_TIME || null,
+  COOKIE_EXPIRE_TIME: process.env.COOKIE_EXPIRE_TIME || null,
+  WHISPER_DEFAULT_PUBLIC_ID: process.env.WHISPER_DEFAULT_PUBLIC_ID || '',
+  WHISPER_DEFAULT_URL: process.env.WHISPER_DEFAULT_URL || ''
 };
 
 const globalError = {
@@ -38,6 +40,17 @@ const globalError = {
 
   TokenExpiredError: {
     message: 'Json web token has expired',
+    statusCode: 400,
+  },
+
+  MissingField: {
+    message: 'Please fill all the fields',
+    statusCode: 400,
+  },
+
+  StrongPassword: {
+    message:
+      'Password must include at least one uppercase letter and one special character',
     statusCode: 400,
   },
 };

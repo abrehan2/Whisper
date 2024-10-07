@@ -7,7 +7,7 @@ export interface IUserRepository {
   create(
     _user: Entities.IUser,
     _check: 'credentials' | 'google'
-  ): Promise<Entities.IUser | null>;
+  ): Promise<boolean>;
   update(_id: string, _user: Entities.IUser): Promise<Entities.IUser | null>;
   delete(_id: string): Promise<boolean>;
 }

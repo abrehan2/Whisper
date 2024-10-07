@@ -6,7 +6,8 @@
   "scripts": {
     "start": "nodemon --exec ts-node app/server.ts",
     "build": "tsc",
-    "serve": "node dist/server.js"
+    "serve": "node dist/server.js",
+    "watch": "tsc -w"
   },
   "author": "Abdul Rehan",
   "license": "MIT"

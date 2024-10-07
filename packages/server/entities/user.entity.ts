@@ -12,6 +12,7 @@ const schema = new Schema<Entities.IUser>(
     name: {
       type: String,
       required: [true, 'Please enter name'],
+      minLength: [8, 'Name should have more than 4 characters'],
     },
 
     email: {
@@ -27,6 +28,11 @@ const schema = new Schema<Entities.IUser>(
       minLength: [8, 'Password should be greater than 8 characters'],
     },
 
+    country: {
+      type: String,
+      required: [true, 'Please select country'],
+    },
+
     avatar: {
       public_id: String,
       url: {
@@ -37,13 +43,13 @@ const schema = new Schema<Entities.IUser>(
 
     dob: {
       type: Date,
-      required: [true, 'Please enter date of birth'],
+      // required: [true, 'Please enter date of birth'],
     },
 
     gender: {
       type: String,
       enum: ['male', 'female'],
-      required: [true, 'Please specify gender'],
+      // required: [true, 'Please specify gender'],
     },
 
     googleId: String,
