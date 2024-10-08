@@ -14,7 +14,12 @@ const globalConfig = {
   RESET_TOKEN_TIME: process.env.RESET_TOKEN_TIME || null,
   COOKIE_EXPIRE_TIME: process.env.COOKIE_EXPIRE_TIME || null,
   WHISPER_DEFAULT_PUBLIC_ID: process.env.WHISPER_DEFAULT_PUBLIC_ID || '',
-  WHISPER_DEFAULT_URL: process.env.WHISPER_DEFAULT_URL || ''
+  WHISPER_DEFAULT_URL: process.env.WHISPER_DEFAULT_URL || '',
+  SMPT_SERVICE: process.env.SMPT_SERVICE || '',
+  SMPT_MAIL: process.env.SMPT_MAIL || '',
+  SMPT_PASSWORD: process.env.SMPT_PASSWORD || '',
+  SMPT_HOST: process.env.SMPT_HOST || '',
+  SMPT_PORT: process.env.SMPT_PORT || '',
 };
 
 const globalError = {
@@ -52,6 +57,11 @@ const globalError = {
     message:
       'Password must include at least one uppercase letter and one special character',
     statusCode: 400,
+  },
+
+  InvalidCredentials: {
+    message: 'Invalid email or password',
+    statusCode: 401,
   },
 };
 

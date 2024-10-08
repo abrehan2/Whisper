@@ -4,7 +4,7 @@ import UserRepository from '../data-access/user.data';
 import User from '../entities/user.entity';
 import { TryCatchBlock } from '../middlewares/error';
 import { IUser } from '../libs/types/entity.types';
-import CreateUser from '../use-cases/user/create-user';
+import { AuthorizeUser, CreateUser } from '../use-cases/user/user-use-case';
 import Logger from '../libs/utilities/logs';
 import { globalError } from '../app/config';
 
@@ -22,19 +22,33 @@ export const RegisterUser = TryCatchBlock(
       Logger('error', 'Empty body for user registration');
       return res.status(globalError.MissingField.statusCode).json({
         success: false,
-        messagge: globalError.MissingField.message,
+        message: globalError.MissingField.message,
       });
     }
 
-    const creationResponse = await CreateUser({
+    CreateUser({
       req,
       res,
       next,
       userRepo,
     });
+  }
+);
 
-    if (!creationResponse) {
-      Logger('error', 'User registration failed');
+export const LoginUser = TryCatchBlock(
+  async (
+    req: Request<object, object, Pick<IUser, 'email' | 'password'>>,
+    res: Response,
+    next: NextFunction
+  ) => {
+    if (!req.body || Object.keys(req.body).length === 0) {
+      Logger('error', 'Empty body for user login');
+      return res.status(globalError.MissingField.statusCode).json({
+        success: false,
+        message: globalError.MissingField.message,
+      });
     }
+
+    AuthorizeUser({ req, res, next, userRepo });
   }
 );

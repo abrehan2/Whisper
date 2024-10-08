@@ -13,6 +13,10 @@ export default class UserRepository implements Repositories.IUserRepository {
     return (await this.database.findById(id)) ?? null;
   }
 
+  async findOne(email: string): Promise<Entities.IUser | null> {
+    return (await this.database.findOne({ email }).select('+password')) ?? null;
+  }
+
   async findAll(): Promise<Entities.IUser[]> {
     return await this.database.find();
   }

@@ -4,21 +4,21 @@ import { AUTH_MODES } from '../../libs/enums/modes.enum';
 import { UseCase } from '../../libs/types';
 import ErrorHandler from '../../libs/utilities/error-handler';
 import validator from 'validator';
+import Logger from '../../libs/utilities/logs';
+import SetToken from '../../libs/utilities/set-token';
 
-export default async function CreateUser({
+export async function CreateUser({
   req,
   res,
   next,
   userRepo,
-}: UseCase.ICreateUser) {
+}: UseCase.IUserCase) {
   const { name, email, country, password } = req.body;
   const { check } = req.query;
-  console.log(check);
-  console.log('I AM HERE');
 
   if (AUTH_MODES['CREDENTIALS'] === check) {
-    console.log('INSIDE PARENT---');
     if (!name || !email || !country || !password) {
+      Logger('error', globalError.MissingField.message);
       return next(
         new ErrorHandler(
           globalError.MissingField.message,
@@ -30,6 +30,7 @@ export default async function CreateUser({
     const isStrongPassword = validator.isStrongPassword(password);
 
     if (!isStrongPassword) {
+      Logger('error', globalError.StrongPassword.message);
       return next(
         new ErrorHandler(
           globalError.StrongPassword.message,
@@ -53,7 +54,11 @@ export default async function CreateUser({
     );
 
     if (!creationResponse) {
-      return creationResponse;
+      Logger('error', 'User registration failed');
+      return res.status(400).json({
+        success: false,
+        message: 'User registration failed',
+      });
     }
 
     res.status(201).json({
@@ -62,7 +67,48 @@ export default async function CreateUser({
     });
   }
 
-  // res.status(200).json({
-  //   message: 'chal raha hoon',
-  // });
+  if (AUTH_MODES['GOOGLE'] === check) {
+    // TODO: Google auth comes here.
+  }
+}
+export async function AuthorizeUser({
+  req,
+  res,
+  next,
+  userRepo,
+}: UseCase.IUserCase) {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return next(
+      new ErrorHandler(
+        globalError.MissingField.message,
+        globalError.MissingField.statusCode
+      )
+    );
+  }
+
+  const user = await userRepo.findOne(email);
+
+  if (!user) {
+    return next(
+      new ErrorHandler(
+        globalError.InvalidCredentials.message,
+        globalError.InvalidCredentials.statusCode
+      )
+    );
+  }
+
+  const isPasswordMatched = await user.ComparePassword(password);
+
+  if (!isPasswordMatched) {
+    return next(
+      new ErrorHandler(
+        globalError.InvalidCredentials.message,
+        globalError.InvalidCredentials.statusCode
+      )
+    );
+  }
+
+  SetToken(user, 200, res, next);
 }

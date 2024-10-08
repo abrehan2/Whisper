@@ -24,6 +24,12 @@ export interface IUser extends Document {
 
   // Methods:
   GetJwtToken: () => string;
-  ComparePassword: () => Promise<boolean>;
+  ComparePassword: (_password: string) => Promise<boolean>;
   GetResetToken: () => void;
+}
+
+export interface IOtp {
+  otp: string;
+  user: IUser;
+  createdAt: Date;
 }
