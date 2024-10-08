@@ -1,10 +1,10 @@
 // Imports:
 import { Request, Response, NextFunction } from 'express';
 
-type ExpressGenericArg = {
-  req: Request;
-  res: Response;
-  next?: NextFunction;
-};
+type ControllerTypeArg = (
+  _req: Request,
+  _res: Response,
+  _next: NextFunction
+) => Promise<void | Response<unknown, Record<string, unknown>>>;
 
-export { ExpressGenericArg };
+export { ControllerTypeArg };
