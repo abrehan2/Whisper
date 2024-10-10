@@ -1,0 +1,10 @@
+{"level":"error","message":"Duplicate key found","service":"user-service"}
+{"level":"error","message":"Empty body for user registration","service":"user-service"}
+{"level":"error","message":"User registration failed","service":"user-service"}
+{"level":"error","message":"Please fill all the fields","service":"user-service"}
+{"level":"error","message":"Empty body for user registration","service":"user-service"}
+{"level":"error","message":"Duplicate key found","service":"user-service"}
+{"level":"error","message":"Empty body for user login","service":"user-service"}
+{"level":"error","message":"Invalid email or password","service":"user-service"}
+{"level":"error","message":"next is not a function","service":"user-service"}
+{"level":"error","message":"Cannot set headers after they are sent to the client","service":"user-service"}

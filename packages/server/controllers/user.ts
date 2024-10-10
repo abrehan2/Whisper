@@ -3,10 +3,10 @@ import { NextFunction, Request, Response } from 'express';
 import UserRepository from '../data-access/user.data';
 import User from '../entities/user.entity';
 import { TryCatchBlock } from '../middlewares/error';
-import { IUser } from '../libs/types/entity.types';
 import { AuthorizeUser, CreateUser } from '../use-cases/user/user-use-case';
 import Logger from '../libs/utilities/logs';
 import { globalError } from '../app/config';
+import { Entities } from '../libs/types';
 
 // Instances:
 const userRepo = new UserRepository(User);
@@ -14,7 +14,7 @@ const userRepo = new UserRepository(User);
 // Controllers:
 export const RegisterUser = TryCatchBlock(
   async (
-    req: Request<object, object, IUser>,
+    req: Request<object, object, Entities.IUser>,
     res: Response,
     next: NextFunction
   ) => {
@@ -37,7 +37,7 @@ export const RegisterUser = TryCatchBlock(
 
 export const LoginUser = TryCatchBlock(
   async (
-    req: Request<object, object, Pick<IUser, 'email' | 'password'>>,
+    req: Request<object, object, Pick<Entities.IUser, 'email' | 'password'>>,
     res: Response,
     next: NextFunction
   ) => {
