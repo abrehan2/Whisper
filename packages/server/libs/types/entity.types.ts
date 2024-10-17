@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 import { AUTH_MODES } from '../enums/modes.enum';
 
 export interface IUser extends Document {
+  _id: string;
   name: string;
   email: string;
   password?: string;
@@ -12,7 +13,7 @@ export interface IUser extends Document {
   };
   age: number;
   dob: Date;
-  country: string;
+  country?: string;
   gender: 'male' | 'female';
   googleId?: string;
   role: 'user' | 'admin';

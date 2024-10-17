@@ -1,0 +1,60 @@
+{"level":"error","message":"Duplicate key found","service":"user-service"}
+{"level":"error","message":"Empty body for user registration","service":"user-service"}
+{"level":"error","message":"User registration failed","service":"user-service"}
+{"level":"error","message":"Please fill all the fields","service":"user-service"}
+{"level":"error","message":"Empty body for user registration","service":"user-service"}
+{"level":"error","message":"Duplicate key found","service":"user-service"}
+{"level":"error","message":"Empty body for user login","service":"user-service"}
+{"level":"error","message":"Invalid email or password","service":"user-service"}
+{"level":"error","message":"next is not a function","service":"user-service"}
+{"level":"error","message":"Cannot set headers after they are sent to the client","service":"user-service"}
+{"level":"error","message":"Unknown authentication strategy \"google\"","service":"user-service"}
+{"level":"error","message":"Unknown authentication strategy \"google\"","service":"user-service"}
+{"level":"error","message":"Unknown authentication strategy \"google\"","service":"user-service"}
+{"level":"error","message":"Unknown authentication strategy \"google\"","service":"user-service"}
+{"level":"error","message":"Unknown authentication strategy \"google\"","service":"user-service"}
+{"level":"error","message":"Unknown authentication strategy \"google\"","service":"user-service"}
+{"level":"error","message":"Unknown authentication strategy \"google\"","service":"user-service"}
+{"level":"error","message":"Unknown authentication strategy \"google\"","service":"user-service"}
+{"level":"error","message":"Unknown authentication strategy \"google\"","service":"user-service"}
+{"level":"error","message":"Unknown authentication strategy \"google\"","service":"user-service"}
+{"level":"error","message":"Unknown authentication strategy \"google\"","service":"user-service"}
+{"level":"error","message":"Unknown authentication strategy \"google\"","service":"user-service"}
+{"level":"error","message":"Unknown authentication strategy \"google\"","service":"user-service"}
+{"level":"error","message":"Bad Request","service":"user-service"}
+{"level":"error","message":"Bad Request","service":"user-service"}
+{"level":"error","message":"Bad Request","service":"user-service"}
+{"level":"error","message":"Bad Request","service":"user-service"}
+{"level":"error","message":"Bad Request","service":"user-service"}
+{"level":"error","message":"Cannot read properties of null (reading 'GetJwtToken')","service":"user-service"}
+{"level":"error","message":"Unable to complete the sign-up process","service":"user-service"}
+{"level":"error","message":"Unable to complete the sign-up process","service":"user-service"}
+{"level":"error","message":"Unable to complete the sign-up process","service":"user-service"}
+{"level":"error","message":"Unable to complete the sign-up process","service":"user-service"}
+{"level":"error","message":"Unable to proceed your request","service":"user-service"}
+{"level":"error","message":"Unable to complete the sign-up process","service":"user-service"}
+{"level":"error","message":"Unable to complete the sign-up process","service":"user-service"}
+{"level":"error","message":"Unable to complete the sign-up process","service":"user-service"}
+{"level":"error","message":"Cannot read properties of null (reading 'GetJwtToken')","service":"user-service"}
+{"level":"error","message":"E11000 duplicate key error collection: test.users index: email_1 dup key: { email: \"rehannajam2@gmail.com\" }","service":"user-service"}
+{"level":"error","message":"E11000 duplicate key error collection: test.users index: email_1 dup key: { email: \"rehannajam2@gmail.com\" }","service":"user-service"}
+{"level":"error","message":"E11000 duplicate key error collection: test.users index: email_1 dup key: { email: \"rehannajam2@gmail.com\" }","service":"user-service"}
+{"level":"error","message":"User already exist","service":"user-service"}
+{"level":"error","message":"User already exist","service":"user-service"}
+{"level":"error","message":"The email address you entered is already registered. Please try logging in instead","service":"user-service"}
+{"level":"error","message":"The email address you entered is already registered. Please try logging in instead","service":"user-service"}
+{"level":"error","message":"The email address you entered is already registered","service":"user-service"}
+{"level":"error","message":"The email address you entered is already registered","service":"user-service"}
+{"level":"error","message":"Illegal arguments: string, undefined","service":"user-service"}
+{"level":"error","message":"Illegal arguments: string, undefined","service":"user-service"}
+{"level":"error","message":"Illegal arguments: string, undefined","service":"user-service"}
+{"level":"error","message":"Illegal arguments: string, undefined","service":"user-service"}
+{"level":"error","message":"Illegal arguments: string, undefined","service":"user-service"}
+{"level":"error","message":"Illegal arguments: string, undefined","service":"user-service"}
+{"level":"error","message":"Illegal arguments: string, undefined","service":"user-service"}
+{"level":"error","message":"Illegal arguments: string, undefined","service":"user-service"}
+{"level":"error","message":"Illegal arguments: string, undefined","service":"user-service"}
+{"level":"error","message":"Invalid email or password","service":"user-service"}
+{"level":"error","message":"Invalid email or password","service":"user-service"}
+{"level":"error","message":"Invalid email or password","service":"user-service"}
+{"level":"error","message":"Invalid email or password","service":"user-service"}
