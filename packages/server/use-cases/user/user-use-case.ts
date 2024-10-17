@@ -27,6 +27,18 @@ export async function CreateUser({
       );
     }
 
+    const isExist = await userRepo.findOne(email);
+
+    if (isExist) {
+      Logger('error', globalError.EntityExist.message);
+      return next(
+        new ErrorHandler(
+          globalError.EntityExist.message,
+          globalError.EntityExist.statusCode
+        )
+      );
+    }
+
     const isStrongPassword = validator.isStrongPassword(password);
 
     if (!isStrongPassword) {
@@ -66,10 +78,6 @@ export async function CreateUser({
       message: 'User registered successfully',
     });
   }
-
-  if (AUTH_MODES['GOOGLE'] === check) {
-    // TODO: Google auth comes here.
-  }
 }
 export async function AuthorizeUser({
   req,
@@ -90,7 +98,7 @@ export async function AuthorizeUser({
 
   const user = await userRepo.findOne(email);
 
-  if (!user) {
+  if (!user || !user.password) {
     return next(
       new ErrorHandler(
         globalError.InvalidCredentials.message,
@@ -111,4 +119,16 @@ export async function AuthorizeUser({
   }
 
   SetToken(user, 200, res, next);
+}
+
+export async function Logout({ res }: Pick<UseCase.IUserCase, 'res'>) {
+  res.cookie('token', null, {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+  });
+
+  res.status(200).json({
+    success: true,
+    message: 'Signed out',
+  });
 }
