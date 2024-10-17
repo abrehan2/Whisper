@@ -1,11 +1,11 @@
 // IMPORTS -
 import { NextFunction, Response } from 'express';
-import { IUser } from '../types/entity.types';
+import { Entities } from '../types';
 import ErrorHandler from './error-handler';
 import { globalConfig } from '../../app/config';
 
 export default function SetToken(
-  user: IUser,
+  user: Entities.IUser,
   statusCode: number,
   res: Response,
   next: NextFunction

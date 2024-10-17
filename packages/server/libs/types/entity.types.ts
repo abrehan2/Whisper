@@ -13,7 +13,7 @@ export interface IUser extends Document {
   };
   age: number;
   dob: Date;
-  country: string;
+  country?: string;
   gender: 'male' | 'female';
   googleId?: string;
   role: 'user' | 'admin';

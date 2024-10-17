@@ -7,6 +7,8 @@ import InitiateDB from './database';
 import { ErrorMiddleware } from '../middlewares/error';
 import userRouter from '../routes/user';
 import bodyParser from 'body-parser';
+import passport from 'passport';
+import '../libs/utilities/google-strategy';
 
 // Variables:
 const app = express();
@@ -18,6 +20,7 @@ InitiateDB();
 // Middlwares:
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(passport.initialize());
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(
@@ -30,6 +33,10 @@ app.use(
 // Test route:
 app.get('/', (_req: Request, res: Response) => {
   res.send('Hello, this is whisper from sever.');
+});
+
+app.get('/error', (_req: Request, res: Response) => {
+  res.send('Hello, this is whisper and there is an error.');
 });
 
 // Routes:

@@ -20,6 +20,9 @@ const globalConfig = {
   SMPT_PASSWORD: process.env.SMPT_PASSWORD || '',
   SMPT_HOST: process.env.SMPT_HOST || '',
   SMPT_PORT: process.env.SMPT_PORT || '',
+  CLIENT_ID: process.env.CLIENT_ID || '',
+  CLIENT_SECRET: process.env.CLIENT_SECRET || '',
+  GOOGLE_CALLBACK_URL: process.env.GOOGLE_CALLBACK_URL || '',
 };
 
 const globalError = {
@@ -63,6 +66,13 @@ const globalError = {
     message: 'Invalid email or password',
     statusCode: 401,
   },
+
+  EntityExist: {
+    message: 'The email address you entered is already registered',
+    statusCode: 409,
+  }
+
+
 };
 
 export { globalConfig, globalError };
