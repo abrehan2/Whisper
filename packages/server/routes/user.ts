@@ -1,12 +1,18 @@
 // Imports:
 import express from 'express';
-import { LoginUser, LogoutUser, RegisterUser } from '../controllers/user';
+import {
+  AuthUserProfile,
+  LoginUser,
+  LogoutUser,
+  RegisterUser,
+} from '../controllers/user';
 import passport from 'passport';
+import { ProtectRoute } from '../middlewares/auth';
 
 // Variables:
 const router = express.Router();
 
-// Route: /api/v1
+// Route: /api/v1/user
 router.route('/auth').post(RegisterUser);
 router.route('/auth/google').get(
   passport.authenticate('google', {
@@ -19,6 +25,7 @@ router.route('/auth/google/callback').get(
   })
 );
 router.route('/authorize').post(LoginUser);
+router.route('/me').get(ProtectRoute, AuthUserProfile);
 router.route('/logout').get(LogoutUser);
 
 export default router;

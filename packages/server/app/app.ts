@@ -6,9 +6,10 @@ import { globalConfig } from './config';
 import InitiateDB from './database';
 import { ErrorMiddleware } from '../middlewares/error';
 import userRouter from '../routes/user';
-import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
 import passport from 'passport';
 import '../libs/utilities/google-strategy';
+import '../app/redis';
 
 // Variables:
 const app = express();
@@ -21,7 +22,7 @@ InitiateDB();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
-app.use(bodyParser.json());
+app.use(cookieParser());
 app.use(morgan('dev'));
 app.use(
   cors({

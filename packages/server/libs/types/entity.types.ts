@@ -28,9 +28,3 @@ export interface IUser extends Document {
   ComparePassword: (_password: string) => Promise<boolean>;
   GetResetToken: () => void;
 }
-
-export interface IOtp {
-  otp: string;
-  user: IUser;
-  createdAt: Date;
-}

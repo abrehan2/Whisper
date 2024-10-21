@@ -9,12 +9,12 @@ export default class UserRepository implements Repositories.IUserRepository {
     this.database = database;
   }
 
-  async findById(id: string): Promise<Entities.IUser | null> {
-    return (await this.database.findById(id)) ?? null;
+  async findById(id: string): Promise<Entities.IUser | undefined> {
+    return (await this.database.findById(id)) ?? undefined;
   }
 
-  async findOne(email: string): Promise<Entities.IUser | null> {
-    return (await this.database.findOne({ email }).select('+password')) ?? null;
+  async findOne(email: string): Promise<Entities.IUser | undefined> {
+    return (await this.database.findOne({ email }).select('+password')) ?? undefined;
   }
 
   async findAll(): Promise<Entities.IUser[]> {
@@ -52,9 +52,9 @@ export default class UserRepository implements Repositories.IUserRepository {
   async update(
     id: string,
     user: Entities.IUser
-  ): Promise<Entities.IUser | null> {
+  ): Promise<Entities.IUser | undefined> {
     console.log(id, user);
-    return null;
+    return undefined;
   }
   async delete(id: string): Promise<boolean> {
     const user = await this.database.findByIdAndDelete(id);

@@ -23,6 +23,9 @@ const globalConfig = {
   CLIENT_ID: process.env.CLIENT_ID || '',
   CLIENT_SECRET: process.env.CLIENT_SECRET || '',
   GOOGLE_CALLBACK_URL: process.env.GOOGLE_CALLBACK_URL || '',
+  REDIS_PASSWORD: process.env.REDIS_PASSWORD || '',
+  REDIS_HOST: process.env.REDIS_HOST || '',
+  REDIS_PORT: process.env.REDIS_PORT || '',
 };
 
 const globalError = {
@@ -43,7 +46,7 @@ const globalError = {
 
   JsonWebTokenError: {
     message: 'Json web token is invalid',
-    statusCode: 400,
+    statusCode: 401,
   },
 
   TokenExpiredError: {
@@ -70,9 +73,33 @@ const globalError = {
   EntityExist: {
     message: 'The email address you entered is already registered',
     statusCode: 409,
+  },
+
+  UserExist: {
+    message: 'User not found',
+    statusCode: 404,
+  },
+
+  ProtectRoute: {
+    message: 'Please authenticate to access this resource',
+    statusCode: 403,
+  },
+
+  AdminRoute: {
+    message: 'Not authorized to access this resource',
+    statusCode: 403,
+  },
+
+  InvalidId: {
+    message: 'Id not found',
+    statusCode: 404,
   }
-
-
 };
 
-export { globalConfig, globalError };
+const globalKeys = {
+  REDIS: {
+    USER: 'user',
+  },
+};
+
+export { globalConfig, globalError, globalKeys };

@@ -129,6 +129,32 @@ export async function Logout({ res }: Pick<UseCase.IUserCase, 'res'>) {
 
   res.status(200).json({
     success: true,
-    message: 'Signed out',
+    message: 'You have successfully logged out. Thank you for visiting!',
+  });
+}
+
+export async function MeDetails({
+  req,
+  res,
+  next,
+  userRepo,
+}: UseCase.IUserCase) {
+
+  console.log('IN CONTROLLER ---');
+  const { id } = req.query;
+  const user = await userRepo.findById(String(id));
+
+  if (!user) {
+    return next(
+      new ErrorHandler(
+        globalError.UserExist.message,
+        globalError.UserExist.statusCode
+      )
+    );
+  }
+
+  res.status(200).json({
+    success: true,
+    user,
   });
 }

@@ -7,6 +7,7 @@ import {
   AuthorizeUser,
   CreateUser,
   Logout,
+  MeDetails,
 } from '../use-cases/user/user-use-case';
 import Logger from '../libs/utilities/logs';
 import { globalError } from '../app/config';
@@ -60,5 +61,11 @@ export const LoginUser = TryCatchBlock(
 export const LogoutUser = TryCatchBlock(
   async (_req: Request, res: Response) => {
     Logout({ res });
+  }
+);
+
+export const AuthUserProfile = TryCatchBlock(
+  async (req: Request, res: Response, next: NextFunction) => {
+    MeDetails({ req, res, next, userRepo });
   }
 );
