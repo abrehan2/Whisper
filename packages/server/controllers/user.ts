@@ -58,11 +58,9 @@ export const LoginUser = TryCatchBlock(
   }
 );
 
-export const LogoutUser = TryCatchBlock(
-  async (_req: Request, res: Response) => {
-    Logout({ res });
-  }
-);
+export const LogoutUser = TryCatchBlock(async (req: Request, res: Response) => {
+  Logout({ req, res });
+});
 
 export const AuthUserProfile = TryCatchBlock(
   async (req: Request, res: Response, next: NextFunction) => {

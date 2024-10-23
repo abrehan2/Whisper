@@ -1,11 +1,13 @@
 // Imports:
-import { globalConfig, globalError } from '../../app/config';
+import { globalConfig, globalError, globalKeys } from '../../app/config';
 import { AUTH_MODES } from '../../libs/enums/modes.enum';
 import { UseCase } from '../../libs/types';
 import ErrorHandler from '../../libs/utilities/error-handler';
 import validator from 'validator';
 import Logger from '../../libs/utilities/logs';
 import SetToken from '../../libs/utilities/set-token';
+import redis from '../../app/redis';
+import SendResponse from '../../libs/utilities/send-response';
 
 export async function CreateUser({
   req,
@@ -118,17 +120,28 @@ export async function AuthorizeUser({
     );
   }
 
+  await redis.set(
+    globalKeys.REDIS.USER.concat(`-${user.id}`),
+    JSON.stringify(user)
+  );
+
   SetToken(user, 200, res, next);
 }
 
-export async function Logout({ res }: Pick<UseCase.IUserCase, 'res'>) {
+export async function Logout({
+  req,
+  res,
+}: Pick<UseCase.IUserCase, 'req' | 'res'>) {
+  const { id } = req.query;
+
+  await redis.del(globalKeys.REDIS.USER.concat(`-${id}`));
+
   res.cookie('token', null, {
     expires: new Date(Date.now()),
     httpOnly: true,
   });
 
-  res.status(200).json({
-    success: true,
+  SendResponse(res, 200, true, {
     message: 'You have successfully logged out. Thank you for visiting!',
   });
 }
@@ -139,10 +152,20 @@ export async function MeDetails({
   next,
   userRepo,
 }: UseCase.IUserCase) {
-
-  console.log('IN CONTROLLER ---');
   const { id } = req.query;
-  const user = await userRepo.findById(String(id));
+
+  const redisUser = await redis.get(globalKeys.REDIS.USER.concat(`-${id}`));
+  let user = JSON.parse(String(redisUser)) ?? undefined;
+
+  if (user) {
+    return SendResponse(res, 200, true, user);
+  }
+
+  user = userRepo.findById(String(id));
+  await Promise.all([
+    user,
+    redis.set(globalKeys.REDIS.USER.concat(`-${id}`), user),
+  ]);
 
   if (!user) {
     return next(
@@ -153,8 +176,5 @@ export async function MeDetails({
     );
   }
 
-  res.status(200).json({
-    success: true,
-    user,
-  });
+  SendResponse(res, 200, true, user);
 }

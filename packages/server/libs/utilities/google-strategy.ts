@@ -20,7 +20,7 @@ passport.use(
 
     async function (
       request: Request,
-      _accessToken: string,
+      accessToken: string,
       _refreshToken: string,
       profile: Passport.IProfile,
       done: VerifyCallback
@@ -47,7 +47,7 @@ passport.use(
             request.res!,
             request.next!
           );
-        } 
+        }
 
         if (!user?.googleId) {
           await user?.updateOne({
@@ -55,7 +55,7 @@ passport.use(
           });
         }
 
-        return SetToken(user as Entities.IUser, 200, request.res!, request.next!);
+        SetToken(user as Entities.IUser, 200, request.res!, request.next!);
       } catch (error: unknown) {
         console.log('ERROR IN GOOGLE STRATEGY: ', error);
         return done(error, null);

@@ -85,3 +85,18 @@
 {"level":"error","message":"Cannot read properties of undefined (reading 'token')","service":"user-service"}
 {"level":"error","message":"Please authenticate to access this resource","service":"user-service"}
 {"level":"error","message":"Please authenticate to access this resource","service":"user-service"}
+{"level":"error","message":"Please authenticate to access this resource","service":"user-service"}
+{"level":"error","message":"Please authenticate to access this resource","service":"user-service"}
+{"level":"error","message":"Please authenticate to access this resource","service":"user-service"}
+{"level":"error","message":"The email address you entered is already registered","service":"user-service"}
+{"level":"error","message":"The email address you entered is already registered","service":"user-service"}
+{"level":"error","message":"Please authenticate to access this resource","service":"user-service"}
+{"level":"error","message":"Unexpected token 'o', \"[object Promise]\" is not valid JSON","service":"user-service"}
+{"level":"error","message":"Unexpected token 'o', \"[object Promise]\" is not valid JSON","service":"user-service"}
+{"level":"error","message":"Unexpected token 'o', \"[object Promise]\" is not valid JSON","service":"user-service"}
+{"level":"error","message":"Please authenticate to access this resource","service":"user-service"}
+{"level":"error","message":"Please authenticate to access this resource","service":"user-service"}
+{"level":"error","message":"Bad Request","service":"user-service"}
+{"level":"error","message":"Bad Request","service":"user-service"}
+{"level":"error","message":"Bad Request","service":"user-service"}
+{"level":"error","message":"Bad Request","service":"user-service"}
