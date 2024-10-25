@@ -1,13 +1,19 @@
 // Imports:
-import { globalConfig, globalError, globalKeys } from '../../app/config';
+import {
+  globalConfig,
+  globalEmails,
+  globalError,
+  globalKeys,
+} from '../../app/config';
 import { AUTH_MODES } from '../../libs/enums/modes.enum';
-import { UseCase } from '../../libs/types';
+import { Entities, UseCase } from '../../libs/types';
 import ErrorHandler from '../../libs/utilities/error-handler';
 import validator from 'validator';
 import Logger from '../../libs/utilities/logs';
 import SetToken from '../../libs/utilities/set-token';
 import redis from '../../app/redis';
 import SendResponse from '../../libs/utilities/send-response';
+import SendMail from '../../libs/utilities/mail-it';
 
 export async function CreateUser({
   req,
@@ -177,4 +183,40 @@ export async function MeDetails({
   }
 
   SendResponse(res, 200, true, user);
+}
+
+export async function UnlinkGoogle({
+  req,
+  res,
+  next,
+}: Pick<UseCase.IUserCase, 'req' | 'res' | 'next'>) {
+  const user = req?.user as Entities.IUser;
+  const resetToken = user.GetResetToken();
+
+  await user.save({ validateBeforeSave: true });
+  const resetPasswordUrl = globalConfig.FRONT_END_BASE.concat(
+    `/password/reset/${resetToken}`
+  );
+  const message = globalEmails.UnlinkGoogle.message.concat(
+    `\n\n${resetPasswordUrl}`
+  );
+
+  try {
+    await SendMail({
+      email: user.email,
+      subject: 'Action Required: Set Your New Password',
+      message,
+    });
+
+    res.clearCookie('token'); // Remove token after unlinking google 
+
+    return SendResponse(res, 200, true, {
+      message: `The email was successfully sent to ${user.email}`,
+    });
+  } catch (err: unknown) {
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save({ validateBeforeSave: false });
+    return next(new ErrorHandler(String(err), 500));
+  }
 }

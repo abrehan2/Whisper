@@ -8,6 +8,7 @@ import {
   CreateUser,
   Logout,
   MeDetails,
+  UnlinkGoogle,
 } from '../use-cases/user/user-use-case';
 import Logger from '../libs/utilities/logs';
 import { globalError } from '../app/config';
@@ -65,5 +66,11 @@ export const LogoutUser = TryCatchBlock(async (req: Request, res: Response) => {
 export const AuthUserProfile = TryCatchBlock(
   async (req: Request, res: Response, next: NextFunction) => {
     MeDetails({ req, res, next, userRepo });
+  }
+);
+
+export const DetachGoogle = TryCatchBlock(
+  async (req: Request, res: Response, next: NextFunction) => {
+    UnlinkGoogle({ req, res, next });
   }
 );

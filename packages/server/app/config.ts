@@ -93,7 +93,7 @@ const globalError = {
   InvalidId: {
     message: 'Id not found',
     statusCode: 404,
-  }
+  },
 };
 
 const globalKeys = {
@@ -102,4 +102,11 @@ const globalKeys = {
   },
 };
 
-export { globalConfig, globalError, globalKeys };
+const globalEmails = {
+  UnlinkGoogle: {
+    message:
+      'You have requested to change your authentication method by unlinking Google. To complete the process, please click the link below to set a new password:',
+  },
+};
+
+export { globalConfig, globalError, globalKeys, globalEmails };

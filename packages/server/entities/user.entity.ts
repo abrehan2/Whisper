@@ -105,15 +105,17 @@ schema.methods.ComparePassword = async function (enteredPassword: string) {
 };
 
 // Reset Password Token:
-schema.methods.GetResetToken = function () {
+schema.methods.GetResetToken = function (): string {
   const resetToken: string = crypto.randomBytes(20).toString('hex');
   this.resetPasswordToken = crypto
     .createHash('sha256')
     .update(resetToken)
     .digest('hex');
 
-  const resetTime: number = Number(globalConfig.RESET_TOKEN_TIME);
-  this.resetPasswordExpire = Date.now() + (resetTime * 60 * 1000);
+  const resetTime = globalConfig.RESET_TOKEN_TIME;
+  this.resetPasswordExpire = Date.now() + (Number(resetTime) * 60 * 1000);
+
+  return resetToken;
 };
 
 export default mongoose.model<Entities.IUser>('User', schema);

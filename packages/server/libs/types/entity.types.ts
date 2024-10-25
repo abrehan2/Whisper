@@ -26,5 +26,5 @@ export interface IUser extends Document {
   // Methods:
   GetJwtToken: () => string;
   ComparePassword: (_password: string) => Promise<boolean>;
-  GetResetToken: () => void;
+  GetResetToken: () => string;
 }

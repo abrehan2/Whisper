@@ -2,6 +2,7 @@
 import express from 'express';
 import {
   AuthUserProfile,
+  DetachGoogle,
   LoginUser,
   LogoutUser,
   RegisterUser,
@@ -27,5 +28,6 @@ router.route('/auth/google/callback').get(
 router.route('/authorize').post(LoginUser);
 router.route('/me').get(ProtectRoute, AuthUserProfile);
 router.route('/logout').get(LogoutUser);
+router.route('/unlink').get(ProtectRoute, DetachGoogle);
 
 export default router;
