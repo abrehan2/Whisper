@@ -6,6 +6,8 @@ import {
   LoginUser,
   LogoutUser,
   RegisterUser,
+  ResetMethod,
+  UpdateUserPassword,
 } from '../controllers/user';
 import passport from 'passport';
 import { ProtectRoute } from '../middlewares/auth';
@@ -26,8 +28,12 @@ router.route('/auth/google/callback').get(
   })
 );
 router.route('/authorize').post(LoginUser);
+router.route('/reset').patch(ResetMethod);
+
+// Protected route(s):
+router.route('/logout').get(ProtectRoute, LogoutUser);
 router.route('/me').get(ProtectRoute, AuthUserProfile);
-router.route('/logout').get(LogoutUser);
 router.route('/unlink').get(ProtectRoute, DetachGoogle);
+router.route('/update/password').patch(ProtectRoute, UpdateUserPassword);
 
 export default router;

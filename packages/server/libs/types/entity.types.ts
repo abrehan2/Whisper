@@ -7,6 +7,8 @@ export interface IUser extends Document {
   name: string;
   email: string;
   password?: string;
+  oldPassword?: string;
+  confirmPassword?: string;
   avatar: {
     public_id?: string;
     url: string;

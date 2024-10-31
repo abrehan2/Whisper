@@ -112,8 +112,8 @@ schema.methods.GetResetToken = function (): string {
     .update(resetToken)
     .digest('hex');
 
-  const resetTime = globalConfig.RESET_TOKEN_TIME;
-  this.resetPasswordExpire = Date.now() + (Number(resetTime) * 60 * 1000);
+  const resetTime = Number(globalConfig.RESET_TOKEN_TIME);
+  this.resetPasswordExpire = Date.now() + (resetTime * 60 * 1000);
 
   return resetToken;
 };

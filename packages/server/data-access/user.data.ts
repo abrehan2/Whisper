@@ -10,11 +10,14 @@ export default class UserRepository implements Repositories.IUserRepository {
   }
 
   async findById(id: string): Promise<Entities.IUser | undefined> {
-    return (await this.database.findById(id)) ?? undefined;
+    return (await this.database.findById(id).select('+password')) ?? undefined;
   }
 
-  async findOne(email: string): Promise<Entities.IUser | undefined> {
-    return (await this.database.findOne({ email }).select('+password')) ?? undefined;
+  async findOne(data: object): Promise<Entities.IUser | undefined> {
+    return (
+      (await this.database.findOne({ ...data }).select('+password')) ??
+      undefined
+    );
   }
 
   async findAll(): Promise<Entities.IUser[]> {

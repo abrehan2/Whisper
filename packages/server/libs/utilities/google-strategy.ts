@@ -2,11 +2,12 @@
 import { Strategy, VerifyCallback } from 'passport-google-oauth2';
 import passport from 'passport';
 import { Request } from 'express';
-import { globalConfig } from '../../app/config';
+import { globalConfig, globalKeys } from '../../app/config';
 import { userRepo } from '../../controllers/user';
 import { AUTH_MODES } from '../enums/modes.enum';
 import SetToken from './set-token';
 import { Entities, Passport } from '../types';
+import redis from '../../app/redis';
 
 passport.use(
   new Strategy(
@@ -20,13 +21,13 @@ passport.use(
 
     async function (
       request: Request,
-      accessToken: string,
+      _accessToken: string,
       _refreshToken: string,
       profile: Passport.IProfile,
       done: VerifyCallback
     ) {
       try {
-        const user = await userRepo.findOne(profile.email);
+        const user = await userRepo.findOne({ email: profile.email });
 
         if (!user) {
           const createdUser = await userRepo.create(
@@ -39,6 +40,13 @@ passport.use(
               googleId: profile.id,
             },
             AUTH_MODES.GOOGLE
+          );
+
+          await redis.set(
+            globalKeys.REDIS.USER.concat(
+              `-${(createdUser as Entities.IUser).id}`
+            ),
+            JSON.stringify(createdUser)
           );
 
           return SetToken(
@@ -55,7 +63,17 @@ passport.use(
           });
         }
 
-        SetToken(user as Entities.IUser, 200, request.res!, request.next!);
+        await redis.set(
+          globalKeys.REDIS.USER.concat(`-${user.id}`),
+          JSON.stringify(user)
+        );
+
+        return SetToken(
+          user as Entities.IUser,
+          200,
+          request.res!,
+          request.next!
+        );
       } catch (error: unknown) {
         console.log('ERROR IN GOOGLE STRATEGY: ', error);
         return done(error, null);

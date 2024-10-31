@@ -94,6 +94,31 @@ const globalError = {
     message: 'Id not found',
     statusCode: 404,
   },
+
+  InvalidLink: {
+    message: 'The link you tried to access has expired',
+    statusCode: 410,
+  },
+
+  ResetMatch: {
+    message: 'Password and confirmation password do not match',
+    statusCode: 422,
+  },
+
+  AuthMethod: {
+    message: 'Please check your authentication method and try again',
+    statusCode: 403,
+  },
+
+  InvalidPassword: {
+    message: 'Invalid password',
+    statusCode: 400,
+  },
+
+  PasswordMatchFailed: {
+    message: 'Passwords do not match',
+    statusCode: 400,
+  },
 };
 
 const globalKeys = {
