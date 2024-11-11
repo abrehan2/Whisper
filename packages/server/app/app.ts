@@ -3,26 +3,28 @@ import express, { ErrorRequestHandler, Request, Response } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import { globalConfig } from './config';
-import InitiateDB from './database';
 import { ErrorMiddleware } from '../middlewares/error';
 import userRouter from '../routes/user';
 import cookieParser from 'cookie-parser';
 import passport from 'passport';
+import expressFileUpload from 'express-fileupload';
 import '../libs/utilities/google-strategy';
 import '../app/redis';
+import DatabaseInitiator from './database';
 
 // Variables:
 const app = express();
 const apiPrefix: string = '/api/v1';
 
 // Invokations:
-InitiateDB();
+DatabaseInitiator.getInstance();
 
 // Middlwares:
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
 app.use(cookieParser());
+app.use(expressFileUpload());
 app.use(morgan('dev'));
 app.use(
   cors({

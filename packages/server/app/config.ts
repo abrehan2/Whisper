@@ -26,6 +26,9 @@ const globalConfig = {
   REDIS_PASSWORD: process.env.REDIS_PASSWORD || '',
   REDIS_HOST: process.env.REDIS_HOST || '',
   REDIS_PORT: process.env.REDIS_PORT || '',
+  CLOUDINARY_NAME: process.env.CLOUDINARY_NAME || '',
+  CLOUDINARY_SECRET: process.env.CLOUDINARY_SECRET || '',
+  CLOUDINARY_API: process.env.CLOUDINARY_API || '',
 };
 
 const globalError = {
