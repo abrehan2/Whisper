@@ -52,12 +52,18 @@ export default class UserRepository implements Repositories.IUserRepository {
 
     return !!createdUser;
   }
-  async update(
-    id: string,
-    user: Entities.IUser
-  ): Promise<Entities.IUser | undefined> {
-    console.log(id, user);
-    return undefined;
+  async update(id: string, data: object): Promise<Entities.IUser> {
+    return await this.database
+      .findByIdAndUpdate(
+        { _id: id },
+        { ...data },
+        {
+          new: true,
+          runValidators: true,
+          useFindAndModify: false,
+        }
+      )
+      .catch((err) => err);
   }
   async delete(id: string): Promise<boolean> {
     const user = await this.database.findByIdAndDelete(id);

@@ -9,9 +9,6 @@ export interface IUserRepository {
     _user: Entities.IUser,
     _check: 'credentials' | 'google'
   ): Promise<boolean | Partial<Entities.IUser>>;
-  update(
-    _id: string,
-    _user: Entities.IUser
-  ): Promise<Entities.IUser | undefined>;
+  update(_id: string, _data: object): Promise<Entities.IUser>;
   delete(_id: string): Promise<boolean>;
 }

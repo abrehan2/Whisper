@@ -122,6 +122,11 @@ const globalError = {
     message: 'Passwords do not match',
     statusCode: 400,
   },
+
+  UpdateFailed: {
+    message: 'Update failed due to invalid data',
+    statusCode: 400,
+  },
 };
 
 const globalKeys = {

@@ -11,6 +11,7 @@ import {
   ResetPassword,
   UnlinkGoogle,
   UpdatePassword,
+  UpdateProfile,
 } from '../use-cases/user/user-use-case';
 import Logger from '../libs/utilities/logs';
 import { globalError } from '../app/config';
@@ -171,5 +172,28 @@ export const UpdateUserPassword = TryCatchBlock(
     }
 
     UpdatePassword({ req, res, next });
+  }
+);
+
+export const UpdateUserProfile = TryCatchBlock(
+  async (req: Request, res: Response, next: NextFunction) => {
+    if (!req.user) {
+      Logger('error', globalError.ProtectRoute.message);
+      return next(
+        new ErrorHandler(
+          globalError.ProtectRoute.message,
+          globalError.ProtectRoute.statusCode
+        )
+      );
+    }
+
+    if (!req.body || Object.keys(req.body).length === 0) {
+      Logger('error', 'Empty body for user profile update');
+      return SendResponse(res, globalError.MissingField.statusCode, false, {
+        message: globalError.MissingField.message,
+      });
+    }
+
+    UpdateProfile({ req, res, next, userRepo });
   }
 );

@@ -15,6 +15,7 @@ import redis from '../../app/redis';
 import SendResponse from '../../libs/utilities/send-response';
 import SendMail from '../../libs/utilities/mail-it';
 import crypto, { BinaryLike } from 'crypto';
+import { cloudinaryInstance } from '../../libs/utilities/cloudinary';
 
 export async function CreateUser({
   req,
@@ -171,11 +172,7 @@ export async function MeDetails({
     return SendResponse(res, 200, true, user);
   }
 
-  user = userRepo.findById(String(id));
-  await Promise.all([
-    user,
-    redis.set(globalKeys.REDIS.USER.concat(`-${id}`), JSON.stringify(user)),
-  ]);
+  user = await userRepo.findById(String(id));
 
   if (!user) {
     Logger('error', globalError.UserExist.message);
@@ -187,6 +184,7 @@ export async function MeDetails({
     );
   }
 
+  await redis.set(globalKeys.REDIS.USER.concat(`-${id}`), JSON.stringify(user));
   return SendResponse(res, 200, true, user);
 }
 
@@ -332,4 +330,65 @@ export async function UpdatePassword({
   } catch (err) {
     return next(new ErrorHandler(String(err), 500));
   }
+}
+
+export async function UpdateProfile({
+  req,
+  res,
+  next,
+  userRepo,
+}: UseCase.IUserCase) {
+  await redis.del(
+    globalKeys.REDIS.USER.concat(`-${(req.user as Entities.IUser).id}`)
+  );
+
+  const currentUser = req.user as Entities.IUser;
+
+  const data: Pick<Entities.IUser, 'name' | 'email' | 'dob' | 'avatar'> = {
+    ...(req.body as unknown as Entities.IUser),
+  };
+
+  if (req.body.avatar !== undefined) {
+    const imageId = currentUser.avatar.public_id;
+
+    // The user is logged in with Google and does not have an avatar imageId.
+    if (!imageId) {
+      currentUser.avatar.url = '';
+    } else await cloudinaryInstance.uploader.destroy(String(imageId));
+
+    const myAvatar = await cloudinaryInstance.uploader.upload(
+      req.body.avatar.url,
+      {
+        folder: 'whisper',
+      }
+    );
+
+    data.avatar = {
+      public_id: myAvatar?.public_id,
+      url: String(myAvatar?.secure_url),
+    };
+  }
+
+  const result = await userRepo.update(currentUser.id, {
+    ...data,
+  });
+
+  if (result?.errors) {
+    Logger('error', globalError.UpdateFailed.message);
+    return next(
+      new ErrorHandler(
+        globalError.UpdateFailed.message,
+        globalError.UpdateFailed.statusCode
+      )
+    );
+  } else {
+    await redis.set(
+      globalKeys.REDIS.USER.concat(`-${result?.id}`),
+      JSON.stringify(result)
+    );
+  }
+
+  return SendResponse(res, 200, true, {
+    message: 'Profile updated successfully',
+  });
 }
