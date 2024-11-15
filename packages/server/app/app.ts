@@ -3,28 +3,22 @@ import express, { ErrorRequestHandler, Request, Response } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import { globalConfig } from './config';
+import InitiateDB from './database';
 import { ErrorMiddleware } from '../middlewares/error';
 import userRouter from '../routes/user';
-import cookieParser from 'cookie-parser';
-import passport from 'passport';
-import expressFileUpload from 'express-fileupload';
-import '../libs/utilities/google-strategy';
-import '../app/redis';
-import DatabaseInitiator from './database';
+import bodyParser from 'body-parser';
 
 // Variables:
 const app = express();
 const apiPrefix: string = '/api/v1';
 
 // Invokations:
-DatabaseInitiator.getInstance();
+InitiateDB();
 
 // Middlwares:
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(passport.initialize());
-app.use(cookieParser());
-app.use(expressFileUpload());
+app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(
   cors({
@@ -34,13 +28,15 @@ app.use(
 );
 
 // Test route:
-app.get('/', (_req: Request, res: Response) => {
-  res.send('Hello, this is whisper from sever.');
-});
-
-app.get('/error', (_req: Request, res: Response) => {
-  res.send('Hello, this is whisper and there is an error.');
-});
+app.get(
+  '/',
+  (
+    _req: Request,
+    res: Response
+  ) => {
+    res.send('Hello, this is whisper from sever.');
+  }
+);
 
 // Routes:
 app.use(apiPrefix.concat('/user'), userRouter);

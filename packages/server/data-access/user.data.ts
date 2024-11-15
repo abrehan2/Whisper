@@ -9,15 +9,12 @@ export default class UserRepository implements Repositories.IUserRepository {
     this.database = database;
   }
 
-  async findById(id: string): Promise<Entities.IUser | undefined> {
-    return (await this.database.findById(id).select('+password')) ?? undefined;
+  async findById(id: string): Promise<Entities.IUser | null> {
+    return (await this.database.findById(id)) ?? null;
   }
 
-  async findOne(data: object): Promise<Entities.IUser | undefined> {
-    return (
-      (await this.database.findOne({ ...data }).select('+password')) ??
-      undefined
-    );
+  async findOne(email: string): Promise<Entities.IUser | null> {
+    return (await this.database.findOne({ email }).select('+password')) ?? null;
   }
 
   async findAll(): Promise<Entities.IUser[]> {
@@ -27,43 +24,28 @@ export default class UserRepository implements Repositories.IUserRepository {
   async create(
     user: Partial<Entities.IUser>,
     check: 'credentials' | 'google'
-  ): Promise<boolean | Partial<Entities.IUser>> {
+  ): Promise<boolean> {
     let createdUser: Partial<Entities.IUser> | null = null;
 
-    // TODO: FOR USER SIGNING UP USING GOOGLE, THEY MUST CHOOSE THEIR COUNTRY AFTER SIGNING UP
-    if (AUTH_MODES['GOOGLE'] === check) {
+    if (AUTH_MODES['CREDENTIALS'] === check) {
       createdUser = await this.database.create({
         name: user.name,
         email: user.email,
+        password: user.password,
+        country: user.country,
         avatar: user.avatar,
-        googleId: user.googleId,
       });
-
-      return createdUser;
     }
-
-    createdUser = await this.database.create({
-      name: user.name,
-      email: user.email,
-      password: user.password,
-      country: user.country,
-      avatar: user.avatar,
-    });
 
     return !!createdUser;
   }
-  async update(id: string, data: object): Promise<Entities.IUser> {
-    return await this.database
-      .findByIdAndUpdate(
-        { _id: id },
-        { ...data },
-        {
-          new: true,
-          runValidators: true,
-          useFindAndModify: false,
-        }
-      )
-      .catch((err) => err);
+  async update(
+    id: string,
+    user: Entities.IUser
+  ): Promise<Entities.IUser | null> {
+    console.log(id, user);
+
+    return null;
   }
   async delete(id: string): Promise<boolean> {
     const user = await this.database.findByIdAndDelete(id);

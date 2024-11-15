@@ -1,21 +1,18 @@
 // Imports:
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 import { AUTH_MODES } from '../enums/modes.enum';
 
 export interface IUser extends Document {
-  _id: string;
   name: string;
   email: string;
   password?: string;
-  oldPassword?: string;
-  confirmPassword?: string;
   avatar: {
     public_id?: string;
     url: string;
   };
   age: number;
   dob: Date;
-  country?: string;
+  country: string;
   gender: 'male' | 'female';
   googleId?: string;
   role: 'user' | 'admin';
@@ -28,52 +25,11 @@ export interface IUser extends Document {
   // Methods:
   GetJwtToken: () => string;
   ComparePassword: (_password: string) => Promise<boolean>;
-  GetResetToken: () => string;
+  GetResetToken: () => void;
 }
 
-export interface IChat extends Document {
-  _id: string;
-  name: string;
-  groupChat?: boolean;
-  creator: {
-    type: Types.ObjectId;
-    ref: 'User';
-  };
-  members: [
-    {
-      type: Types.ObjectId;
-      ref: 'User';
-    },
-  ];
-}
-
-export interface IMessage extends Document {
-  _id: string;
-  sender: {
-    type: Types.ObjectId;
-    ref: 'User';
-  };
-  chat: {
-    type: Types.ObjectId;
-    ref: 'Chat';
-  };
-  content: string;
-  attachments: [
-    {
-      public_id: string;
-      url: string;
-    },
-  ];
-}
-
-export interface IRequest extends Document {
-  status: 'pending' | 'accepted' | 'rejected';
-  sender: {
-    type: Types.ObjectId;
-    ref: 'User';
-  };
-  receiver: {
-    type: Types.ObjectId;
-    ref: 'Chat';
-  };
+export interface IOtp {
+  otp: string;
+  user: IUser;
+  createdAt: Date;
 }

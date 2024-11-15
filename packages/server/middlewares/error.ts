@@ -24,6 +24,7 @@ export const ErrorMiddleware = (
   }
 
   if (err?.code === 11000) {
+    console.log('I AM HERE IN 11000');
     err = new ErrorHandler(
       globalError[11000].message,
       globalError[11000].statusCode
