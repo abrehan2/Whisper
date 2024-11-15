@@ -2,13 +2,13 @@
 import { Entities } from '.';
 
 export interface IUserRepository {
-  findById(_id: string): Promise<Entities.IUser | null>;
+  findById(_id: string): Promise<Entities.IUser | undefined>;
   findAll(): Promise<Entities.IUser[]>;
-  findOne(_email: string): Promise<Entities.IUser | null>;
+  findOne(_data: object): Promise<Entities.IUser | undefined>;
   create(
     _user: Entities.IUser,
     _check: 'credentials' | 'google'
-  ): Promise<boolean>;
-  update(_id: string, _user: Entities.IUser): Promise<Entities.IUser | null>;
+  ): Promise<boolean | Partial<Entities.IUser>>;
+  update(_id: string, _data: object): Promise<Entities.IUser>;
   delete(_id: string): Promise<boolean>;
 }

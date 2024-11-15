@@ -28,10 +28,7 @@ const schema = new Schema<Entities.IUser>(
       minLength: [8, 'Password should be greater than 8 characters'],
     },
 
-    country: {
-      type: String,
-      required: [true, 'Please select country'],
-    },
+    country: String,
 
     avatar: {
       public_id: String,
@@ -41,15 +38,11 @@ const schema = new Schema<Entities.IUser>(
       },
     },
 
-    dob: {
-      type: Date,
-      // required: [true, 'Please enter date of birth'],
-    },
+    dob: Date,
 
     gender: {
       type: String,
       enum: ['male', 'female'],
-      // required: [true, 'Please specify gender'],
     },
 
     googleId: String,
@@ -112,15 +105,17 @@ schema.methods.ComparePassword = async function (enteredPassword: string) {
 };
 
 // Reset Password Token:
-schema.methods.GetResetToken = function () {
+schema.methods.GetResetToken = function (): string {
   const resetToken: string = crypto.randomBytes(20).toString('hex');
   this.resetPasswordToken = crypto
     .createHash('sha256')
     .update(resetToken)
     .digest('hex');
 
-  const resetTime: number = Number(globalConfig.RESET_TOKEN_TIME);
+  const resetTime = Number(globalConfig.RESET_TOKEN_TIME);
   this.resetPasswordExpire = Date.now() + (resetTime * 60 * 1000);
+
+  return resetToken;
 };
 
 export default mongoose.model<Entities.IUser>('User', schema);
